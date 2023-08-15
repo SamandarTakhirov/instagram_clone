@@ -24,48 +24,18 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
-  late final Repository repository;
-  late final TextEditingController controller;
-
   List<PhotoModel> photos = [];
-  Timer? _timer;
-  bool isLoading = false;
+  late final IPhotoRepository photoRepository;
 
   @override
   void initState() {
     super.initState();
-    repository = RepositoryIMP(APIService());
-    controller = TextEditingController();
-    getPhoto();
+    photoRepository = PhotoRepositoryImpl(APIService());
+    getAllPhotos();
   }
 
-  void getPhoto() async {
-    setState(() {
-      isLoading = true;
-    });
-
-    photos = await repository.getPhotos();
-
-    setState(() {
-      isLoading = false;
-    });
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    _timer?.cancel();
-    super.dispose();
-  }
-
-  void searchPosts(String text) async {
-    if (!isLoading) {
-      setState(() {
-        isLoading = true;
-      });
-    }
-
-    _timer?.cancel();
+  Future<void> getAllPhotos() async {
+    photos = await photoRepository.getAllUser();
   }
 
   @override
@@ -73,28 +43,28 @@ class _UserProfileState extends State<UserProfile> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColor.white,
-        title:  Row(
+        title: Row(
           children: [
             Text(
-              "${photos.firstOrNull}",
+              "${photos[8].user?.social?.instagramUsername}",
               style: const TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 22,
               ),
             ),
             const SizedBox(width: 5),
-            const SizedBox(
+            SizedBox(
               width: 30,
               height: 20,
               child: DecoratedBox(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: AppColor.red,
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
                 child: Center(
                   child: Text(
-                    "10+",
-                    style: TextStyle(
+                    "${photos[3].user?.totalCollections}",
+                    style: const TextStyle(
                       color: AppColor.white,
                       fontSize: 12,
                     ),
@@ -104,55 +74,67 @@ class _UserProfileState extends State<UserProfile> {
             )
           ],
         ),
-        actions: const [
-          CustomButtonImages(image: AppIcons.icAdded),
-          SizedBox(width: 10),
-          Icon(Icons.menu, size: 30),
-          SizedBox(width: 10),
+        actions: [
+          InkWell(
+            onTap: () {            },
+            child: const CustomButtonImages(image: AppIcons.icAdded),
+          ),
+          const SizedBox(width: 10),
+          IconButton(
+            splashRadius: 15,
+            onPressed: () {},
+            icon: const Icon(Icons.menu, size: 30),
+          ),
+          const SizedBox(width: 10),
         ],
       ),
-      body:  SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CustomCircleAvatar(
-                    image: AppIcons.flutterBro,
+                   CustomCircleAvatar(
+                    image: "${photos[9].user?.profileImage?.large}",
                   ),
                   FollowersText(
                     text: "Posts",
-                    count: "1,234",
+                    count: "${photos[9].user?.totalPhotos}",
                   ),
                   FollowersText(
                     text: "Followers",
-                    count: "5,678",
+                    count: "${photos[9].user?.totalCollections}",
                   ),
                   FollowersText(
                     text: "Following",
-                    count: "9,101",
+                    count: "${photos[2].user?.totalLikes}",
                   )
                 ],
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: AccountInformation(
-                accountName: "Flutter.Bro",
-                bio:
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ",
+                accountName: "${photos[9].user?.name}",
+                bio: "${photos[9].user?.bio} ",
                 bioHashtag: "#hashtag",
-                category: "Category/Genre text",
-                link: "Link goes here",
+                category: "${photos[9].user?.location}",
+                link: "${photos[9].user?.portfolioUrl}",
               ),
             ),
             const SizedBox(height: 8),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.0),
-              child: FollowersLabel(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: FollowersLabel(
+                othersCount: "${photos[3].user?.totalCollections}",
+                userIconOne: "${photos[1].user?.profileImage?.large}",
+                userIconTwo: "${photos[2].user?.profileImage?.large}",
+                userNameOne: "${photos[1].user?.name}",
+                userNameTwo: "${photos[2].user?.name}",
+              ),
             ),
             const SizedBox(height: 10),
             const Padding(
@@ -166,17 +148,22 @@ class _UserProfileState extends State<UserProfile> {
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
-                  return const Row(
+                  return Row(
                     children: [
-                      SizedBox(width: 15),
-                      ActualStory(),
+                      const SizedBox(width: 10),
+                      ActualStory(
+                        image: "${photos[index].user?.profileImage?.large}",
+                        text: "${photos[index].user?.name}",
+                      ),
                     ],
                   );
                 },
-                itemCount: 10,
+                itemCount: 8,
               ),
             ),
-            const AccountsPosts()
+             AccountsPosts(
+              photos: photos,
+            )
           ],
         ),
       ),

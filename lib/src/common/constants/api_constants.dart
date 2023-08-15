@@ -1,5 +1,5 @@
 abstract class ApiConst {
-  static const _baseUrl = String.fromEnvironment(
+  static const baseUrl = String.fromEnvironment(
     "base_url",
     defaultValue: "...",
   );
@@ -10,16 +10,15 @@ abstract class ApiConst {
   );
 
 
-  static const photosPath = "$_baseUrl/photos";
-  static const searchUsersPath = "$_baseUrl/search/photos";
+  static const photosPath = "$baseUrl/photos";
 
   static Map<String, List<String>> searchQuery(String searchText) => {
     "q": [searchText],
   };
 
-  static Map<String, List<String>> paginationParams(int limit, int skip) => {
-    "limit": [limit.toString()],
-    "skip": [skip.toString()],
+  static Map<String, List<String>> paginationParams(int limit, int perPage) => {
+    "page": [limit.toString()],
+    "per_page": [perPage.toString()],
   };
 
 }

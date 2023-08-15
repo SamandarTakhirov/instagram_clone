@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:instagram_clone/src/common/constants/app_color.dart';
-
-import '../../../common/constants/icons.dart';
+import '../../../common/constants/app_color.dart';
 import 'circle_avatar.dart';
 
 class FollowersLabel extends StatefulWidget {
-  const FollowersLabel({Key? key}) : super(key: key);
+  final String userNameOne;
+  final String userIconOne;
+  final String userNameTwo;
+  final String userIconTwo;
+  final String othersCount;
+
+  const FollowersLabel({
+    required this.userIconOne,
+    required this.userIconTwo,
+    required this.userNameOne,
+    required this.userNameTwo,
+    required this.othersCount,
+    super.key,
+  });
 
   @override
   State<FollowersLabel> createState() => _FollowersLabelState();
@@ -16,7 +27,7 @@ class _FollowersLabelState extends State<FollowersLabel> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        SizedBox(
+         SizedBox(
           width: 54,
           height: 26,
           child: Stack(
@@ -24,19 +35,22 @@ class _FollowersLabelState extends State<FollowersLabel> {
               Padding(
                 padding: const EdgeInsets.only(left: 20),
                 child: CustomCircleAvatar(
-                  image: AppIcons.flutterBro,
+                  isGradient: false,
+                  image: widget.userIconOne,
                   avatarSize: 26,
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 10),
                 child: CustomCircleAvatar(
-                  image: AppIcons.flutterBro,
+                  isGradient: false,
+                  image: widget.userIconTwo,
                   avatarSize: 26,
                 ),
               ),
               CustomCircleAvatar(
-                image: AppIcons.flutterBro,
+                isGradient: false,
+                image:  widget.userIconOne,
                 avatarSize: 26,
               ),
             ],
@@ -44,21 +58,21 @@ class _FollowersLabelState extends State<FollowersLabel> {
         ),
         RichText(
           textAlign: TextAlign.start,
-          text: TextSpan(
-            style: TextStyle(
+          text:  TextSpan(
+            style: const TextStyle(
               fontSize: 14,
               color: AppColor.black,
             ),
             children: [
-              TextSpan(text: "Followed by "),
+              const TextSpan(text: "Followed by "),
               TextSpan(
-                text: "username, username\n",
-                style: TextStyle(fontWeight: FontWeight.w700),
+                text: "${widget.userNameOne}, ${widget.userNameTwo}\n",
+                style: const TextStyle(fontWeight: FontWeight.w700),
               ),
-              TextSpan(text: " and "),
+              const TextSpan(text: " and "),
               TextSpan(
-                text: " 100 others",
-                style: TextStyle(fontWeight: FontWeight.w700),
+                text: " ${widget.othersCount} others",
+                style: const TextStyle(fontWeight: FontWeight.w700),
               ),
             ],
           ),

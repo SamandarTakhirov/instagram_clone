@@ -73,7 +73,7 @@ class _ControllerPageState extends State<ControllerPage> {
           BottomNavigationBarItem(
             icon: CustomButtonImages(image: AppIcons.icAdded),
             label: "",
-            activeIcon:CustomButtonImages(image: AppIcons.icAdded),
+            activeIcon: CustomButtonImages(image: AppIcons.icAdded),
           ),
           BottomNavigationBarItem(
             icon: CustomButtonImages(image: AppIcons.icReels),

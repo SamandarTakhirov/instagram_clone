@@ -20,7 +20,6 @@ class APIService {
       }) async {
     final params = _queryToString(queryParametersAll);
     final uri = Uri.parse("$requestPath$params");
-    headers.addAll({"Content-Type" : "application/json"});
 
     try {
       Response response = await switch (method) {

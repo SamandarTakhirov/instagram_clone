@@ -56,7 +56,7 @@ class _CustomCircleAvatarState extends State<CustomCircleAvatar> {
                       ? widget.avatarSize! - 2
                       : widget.avatarSize! - 14,
                   child: CircleAvatar(
-                    foregroundImage: AssetImage(widget.image),
+                    foregroundImage: NetworkImage(widget.image),
                   ),
                 ),
               ),
