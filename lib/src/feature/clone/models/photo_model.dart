@@ -1,6 +1,5 @@
-import 'dart:convert';
 
-import 'package:http/http.dart';
+
 import 'package:instagram_clone/src/feature/clone/models/users_sponsor.dart';
 
 class PhotoModel {
@@ -200,13 +199,12 @@ class Sponsorship {
       };
 }
 
-
-void main() async {
-  Uri uri = Uri.parse("https://api.unsplash.com/photos/?client_id=e5MrEKuWIryMWb8nDztpeCtCLORK55WSumh0dgl_N-8");
-  Response response = await get(uri);
-
-  List<PhotoModel> photos =jsponse.body) as List).map();
-}
+//
+// void main() async {
+//   Uri uri = Uri.parse("https://api.unsplash.com/photos/?client_id=e5MrEKuWIryMWb8nDztpeCtCLORK55WSumh0dgl_N-8");
+//   Response response = await get(uri);
+//
+// }
 
 
 /*
