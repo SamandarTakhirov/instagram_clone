@@ -56,25 +56,28 @@ class _FollowersLabelState extends State<FollowersLabel> {
             ],
           ),
         ),
-        RichText(
-          textAlign: TextAlign.start,
-          text:  TextSpan(
-            style: const TextStyle(
-              fontSize: 14,
-              color: AppColor.black,
+        Expanded(
+          child: RichText(
+            maxLines: 3,
+            textAlign: TextAlign.start,
+            text:  TextSpan(
+              style: const TextStyle(
+                fontSize: 14,
+                color: AppColor.black,
+              ),
+              children: [
+                const TextSpan(text: "Followed by "),
+                TextSpan(
+                  text: "${widget.userNameOne}, ${widget.userNameTwo}",
+                  style: const TextStyle(fontWeight: FontWeight.w700),
+                ),
+                const TextSpan(text: " and "),
+                TextSpan(
+                  text: " ${widget.othersCount} others",
+                  style: const TextStyle(fontWeight: FontWeight.w700),
+                ),
+              ],
             ),
-            children: [
-              const TextSpan(text: "Followed by "),
-              TextSpan(
-                text: "${widget.userNameOne}, ${widget.userNameTwo}\n",
-                style: const TextStyle(fontWeight: FontWeight.w700),
-              ),
-              const TextSpan(text: " and "),
-              TextSpan(
-                text: " ${widget.othersCount} others",
-                style: const TextStyle(fontWeight: FontWeight.w700),
-              ),
-            ],
           ),
         ),
       ],
