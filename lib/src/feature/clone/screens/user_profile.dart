@@ -1,6 +1,5 @@
-
-
 import 'package:flutter/material.dart';
+import 'package:instagram_clone/src/feature/clone/widget/shimmer_profile.dart';
 
 import '../../../common/constants/app_color.dart';
 import '../../../common/constants/icons.dart';
@@ -112,11 +111,9 @@ class _UserProfileState extends State<UserProfile> {
     setState(() {});
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return !isLoading ? Scaffold(
       appBar: AppBar(
         backgroundColor: AppColor.white,
         title: Row(
@@ -244,6 +241,8 @@ class _UserProfileState extends State<UserProfile> {
           ],
         ),
       ),
+    ) : const Scaffold(
+      body: ShimmerProfile(),
     );
   }
 }

@@ -47,6 +47,7 @@ class _ControllerPageState extends State<ControllerPage> {
         controller: pageController,
         onPageChanged: pageChange,
         children: const [
+          //PostView(),
           HomePage(),
           SearchPage(),
           AddPosts(),
