@@ -52,8 +52,11 @@ class AccountsPosts extends StatelessWidget {
                       alignment: Alignment.topRight,
                       children: [
                         Image(
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          height: double.infinity,
                           image: NetworkImage(
-                            "${photos[index].user?.profileImage?.large}",
+                            "${photos[index].urls?.regular ?? ""}",
                           ),
                         ),
                         const Padding(
@@ -89,7 +92,7 @@ class AccountsPosts extends StatelessWidget {
                           width: double.infinity,
                           height: double.infinity,
                           image: NetworkImage(
-                            "${photos[index].user?.profileImage?.large}",
+                            "${photos[index].urls?.regular ?? ""}",
                           ),
                         ),
                          Padding(
@@ -127,8 +130,11 @@ class AccountsPosts extends StatelessWidget {
                       alignment: Alignment.topRight,
                       children: [
                         Image(
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          height: double.infinity,
                           image: NetworkImage(
-                            "${photos[index].user?.profileImage?.large}",
+                            "${photos[index].urls?.regular ?? ""}",
                           ),
                         ),
                         const Padding(

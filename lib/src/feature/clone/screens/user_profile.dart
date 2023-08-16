@@ -1,10 +1,11 @@
-import 'dart:async';
+
 
 import 'package:flutter/material.dart';
 
 import '../../../common/constants/app_color.dart';
 import '../../../common/constants/icons.dart';
 import '../../../common/service/api_service.dart';
+import '../../../common/utils/debouncing_throttling.dart';
 import '../data/repository.dart';
 import '../models/photo_model.dart';
 import '../widget/account_edit.dart';
@@ -24,19 +25,94 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
-  List<PhotoModel> photos = [];
   late final IPhotoRepository photoRepository;
+  late final TextEditingController controller;
+  List<PhotoModel> photos = [];
+  bool isLoading = false;
+  bool isPaginationLoading = false;
+  late final ScrollController scrollController;
+  int page = 1;
+  int searchPage = 1;
+  final double expandedHeight = 300;
+  final deBouncing = DeBouncing(const Duration(milliseconds: 300));
 
   @override
   void initState() {
     super.initState();
     photoRepository = PhotoRepositoryImpl(APIService());
-    getAllPhotos();
+    controller = TextEditingController();
+    scrollController = ScrollController()
+      ..addListener(pagination)
+      ..addListener(appBarExtend);
+    getPhotos();
   }
 
-  Future<void> getAllPhotos() async {
-    photos = await photoRepository.getAllUser();
+  @override
+  void dispose() {
+    controller.dispose();
+    scrollController
+      ..removeListener(pagination)
+      ..removeListener(appBarExtend);
+    scrollController.dispose();
+    deBouncing.dispose();
+    super.dispose();
   }
+
+  void getPhotos() async {
+    setState(() => isLoading = true);
+
+    page = 1;
+    photos = await photoRepository.paginationPhotos(page++);
+
+    setState(() => isLoading = false);
+  }
+
+  void pagination() async {
+    if (scrollController.position.pixels ==
+        scrollController.position.maxScrollExtent) {
+      if (controller.text.trim().isNotEmpty) {
+        List<PhotoModel> paginationPhoto = await photoRepository.searchPhotos(
+          searchPage++,
+          controller.text.trim(),
+        );
+        photos.addAll(paginationPhoto);
+        setState(() {});
+      } else {
+        List<PhotoModel> paginationPhoto =
+            await photoRepository.paginationPhotos(page++);
+        photos.addAll(paginationPhoto);
+        setState(() {});
+      }
+    }
+  }
+
+  void searchingPhotos(String text) {
+    setState(() => isLoading = true);
+
+    deBouncing.handler(() async {
+      if (text.isEmpty) {
+        searchPage = 1;
+        getPhotos();
+      } else {
+        photos = await photoRepository.searchPhotos(
+          searchPage++,
+          text.trim(),
+        );
+      }
+
+      setState(() => isLoading = false);
+    });
+  }
+
+  bool get isAppBarExpanded =>
+      scrollController.hasClients &&
+      scrollController.offset > (expandedHeight - kToolbarHeight);
+
+  void appBarExtend() {
+    setState(() {});
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +122,7 @@ class _UserProfileState extends State<UserProfile> {
         title: Row(
           children: [
             Text(
-              "${photos[8].user?.social?.instagramUsername}",
+              "${photos[16].user?.social?.instagramUsername}",
               style: const TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 22,
@@ -63,7 +139,7 @@ class _UserProfileState extends State<UserProfile> {
                 ),
                 child: Center(
                   child: Text(
-                    "${photos[3].user?.totalCollections}",
+                    "${photos[16].user?.totalCollections}",
                     style: const TextStyle(
                       color: AppColor.white,
                       fontSize: 12,
@@ -76,7 +152,7 @@ class _UserProfileState extends State<UserProfile> {
         ),
         actions: [
           InkWell(
-            onTap: () {            },
+            onTap: () {},
             child: const CustomButtonImages(image: AppIcons.icAdded),
           ),
           const SizedBox(width: 10),
@@ -89,6 +165,7 @@ class _UserProfileState extends State<UserProfile> {
         ],
       ),
       body: SingleChildScrollView(
+        controller: scrollController,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -97,20 +174,20 @@ class _UserProfileState extends State<UserProfile> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                   CustomCircleAvatar(
-                    image: "${photos[9].user?.profileImage?.large}",
+                  CustomCircleAvatar(
+                    image: "${photos[16].user?.profileImage?.large}",
                   ),
                   FollowersText(
                     text: "Posts",
-                    count: "${photos[9].user?.totalPhotos}",
+                    count: "${photos[16].user?.totalPhotos}",
                   ),
                   FollowersText(
                     text: "Followers",
-                    count: "${photos[9].user?.totalCollections}",
+                    count: "${photos[16].user?.links?.followers?.length}",
                   ),
                   FollowersText(
                     text: "Following",
-                    count: "${photos[2].user?.totalLikes}",
+                    count: "${photos[16].user?.links?.following?.length}",
                   )
                 ],
               ),
@@ -118,18 +195,18 @@ class _UserProfileState extends State<UserProfile> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: AccountInformation(
-                accountName: "${photos[9].user?.name}",
-                bio: "${photos[9].user?.bio} ",
+                accountName: "${photos[16].user?.name}",
+                bio: "${photos[17].user?.bio ?? ""} ",
                 bioHashtag: "#hashtag",
-                category: "${photos[9].user?.location}",
-                link: "${photos[9].user?.portfolioUrl}",
+                category: "${photos[16].user?.location}",
+                link: "${photos[16].user?.portfolioUrl}",
               ),
             ),
             const SizedBox(height: 8),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: FollowersLabel(
-                othersCount: "${photos[3].user?.totalCollections}",
+                othersCount: "${photos[16].user?.links?.followers?.length}",
                 userIconOne: "${photos[1].user?.profileImage?.large}",
                 userIconTwo: "${photos[2].user?.profileImage?.large}",
                 userNameOne: "${photos[1].user?.name}",
@@ -152,16 +229,16 @@ class _UserProfileState extends State<UserProfile> {
                     children: [
                       const SizedBox(width: 10),
                       ActualStory(
-                        image: "${photos[index].user?.profileImage?.large}",
+                        image: "${photos[index].urls?.regular ?? ""}",
                         text: "${photos[index].user?.name}",
                       ),
                     ],
                   );
                 },
-                itemCount: 8,
+                itemCount: photos.length,
               ),
             ),
-             AccountsPosts(
+            AccountsPosts(
               photos: photos,
             )
           ],

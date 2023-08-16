@@ -12,13 +12,22 @@ abstract class ApiConst {
 
   static const photosPath = "$baseUrl/photos";
 
-  static Map<String, List<String>> searchQuery(String searchText) => {
-    "q": [searchText],
+  static const searchPhotosPath = "$baseUrl/search/photos";
+
+  static Map<String, List<String>> paginationQuery(int limit, int page) => {
+    "per_page": ["$limit"],
+    "page": ["$page"],
   };
 
-  static Map<String, List<String>> paginationParams(int limit, int perPage) => {
-    "page": [limit.toString()],
-    "per_page": [perPage.toString()],
-  };
+  static Map<String, List<String>> searchWithPaginationQuery({
+    required int limit,
+    required int page,
+    required String searchText,
+  }) =>
+      {
+        "per_page": ["$limit"],
+        "page": ["$page"],
+        "query": [searchText],
+      };
 
 }
