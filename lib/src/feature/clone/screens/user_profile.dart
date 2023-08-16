@@ -162,6 +162,7 @@ class _UserProfileState extends State<UserProfile> {
                 ],
               ),
               body: NestedScrollView(
+                controller: scrollController,
                 headerSliverBuilder: (context, innerBoxIsScrolled) {
                   return [
                     SliverAppBar(
