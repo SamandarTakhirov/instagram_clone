@@ -29,29 +29,21 @@ class _FollowersLabelState extends State<FollowersLabel> {
       children: [
          SizedBox(
           width: 54,
-          height: 26,
+          height: 28,
           child: Stack(
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 20),
-                child: CustomCircleAvatar(
-                  isGradient: false,
-                  image: widget.userIconOne,
-                  avatarSize: 26,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10),
+                padding: const EdgeInsets.only(left: 15),
                 child: CustomCircleAvatar(
                   isGradient: false,
                   image: widget.userIconTwo,
-                  avatarSize: 26,
+                  avatarSize: 28,
                 ),
               ),
               CustomCircleAvatar(
                 isGradient: false,
                 image:  widget.userIconOne,
-                avatarSize: 26,
+                avatarSize: 28,
               ),
             ],
           ),

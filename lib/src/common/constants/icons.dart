@@ -13,4 +13,10 @@ abstract class AppIcons {
   static const String icPosts = "assets/images/icons/ic_posts.png";
   static const String icCarouselImg = "assets/images/icons/ic_carousel_img.png";
   static const String icInstagram = "assets/images/icons/ic_instagram.png";
+  static const String icComment = "assets/images/icons/ic_comment.png";
+  static const String icLiked = "assets/images/icons/ic_liked.png";
+  static const String icSave = "assets/images/icons/ic_save.png";
+  static const String icSend = "assets/images/icons/ic_send.png";
+  static const String icLike = "assets/images/icons/ic_like.png";
+  static const String icDirect = "assets/images/icons/ic_derict.png";
 }

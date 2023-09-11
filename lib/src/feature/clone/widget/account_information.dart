@@ -48,8 +48,11 @@ class _AccountInformationState extends State<AccountInformation> {
           ),
         ) : SizedBox(),
         widget.bio != null ? RichText(
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
           text: TextSpan(
             style: const TextStyle(
+              overflow: TextOverflow.ellipsis,
               fontWeight: FontWeight.w400,
               fontSize: 14,
               color: AppColor.black,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../feature/clone/screens/page_controller.dart';
+import '../../page/main/main_page.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
