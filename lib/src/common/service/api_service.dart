@@ -29,7 +29,7 @@ class APIService {
 
     print(uri);
 
-    print("knfjrnfrnf");
+
     try {
       Response response = await switch (method) {
         Method.get => get(uri, headers: headers),

@@ -19,14 +19,13 @@ class _ReelsPageState extends State<ReelsPage> {
   @override
   void initState() {
     repository = PhotoRepositoryImpl(APIService());
-    print(repository);
     getBaseModel();
     super.initState();
   }
 
   void getBaseModel() async {
     baseVideoModel = await repository.getAllVideos();
-    print('dsadasdasdasdsadsadasdasd');
+
     setState(() {});
   }
 

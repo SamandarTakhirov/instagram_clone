@@ -8,7 +8,7 @@ class VideoModel {
   String? description;
   String? state;
   bool? isVertical;
-  List<String>? tags;
+  List<Object?>? tags;
   int? downloads;
   int? views;
   int? likes;
@@ -20,7 +20,7 @@ class VideoModel {
   int? maxHeight;
   int? maxWidth;
   String? videoId;
-  int? d2vRatio;
+  num? d2vRatio;
   String? id;
   int? publishedAtTimestamp;
   int? downloadsLastMonth;
@@ -60,8 +60,8 @@ class VideoModel {
   });
 
   factory VideoModel.fromJson(Map<String, Object?> json) => VideoModel(
-        createdAt: json["created_at"] as DateTime?,
-        updatedAt: json["updated_at"] as DateTime?,
+        createdAt: json["created_at"] != null ? DateTime.tryParse(json["created_at"] as String): null,
+        updatedAt: json["updated_at"]  != null ? DateTime.tryParse(json["updated_at"] as String): null,
         title: json["title"] as String?,
         baseFilename: json["base_filename"] as String?,
         poster: json["poster"] as String?,
@@ -69,19 +69,19 @@ class VideoModel {
         description: json["description"] as String?,
         state: json["state"] as String?,
         isVertical: json["is_vertical"] as bool?,
-        tags: json["tags"] as List<String>?,
+        tags: json["tags"] as List<Object?>?,
         downloads: json["downloads"] as int?,
         views: json["views"] as int?,
         likes: json["likes"] as int?,
         contributorId: json["contributor_id"] as int?,
-        publishedAt: json["published_at"] as DateTime?,
+        publishedAt:  json["published_at"] != null ? DateTime.tryParse(json["published_at"] as String): null,
         playbackId: json["playback_id"] as String?,
         aspectRatio: json["aspect_ratio"] as String?,
         duration: json["duration"] as String?,
         maxHeight: json["max_height"] as int?,
         maxWidth: json["max_width"] as int?,
         videoId: json["video_id"] as String?,
-        d2vRatio: json["d2v_ratio"] as int?,
+        d2vRatio: json["d2v_ratio"] as num?,
         id: json["id"] as String?,
         publishedAtTimestamp: json["published_at_timestamp"] as int?,
         downloadsLastMonth: json["downloads_last_month"] as int?,
@@ -152,7 +152,7 @@ class BaseVideoModel {
       pageSize : json["page_size"] as int?,
       params : json["params"] as String?,
       total : json["total"] as int?,
-      hits : json["hits"] != null ? List.from(json["hits"] as List<Map<String,Object?>>).map((e) => VideoModel.fromJson(e)).toList(): null,
+      hits : json["hits"] != null ? List.from(json["hits"] as List<dynamic>).map((e) => VideoModel.fromJson(e)).toList(): null,
       hitsPerPage : json["hitsPerPage"] as int?,
       nbHits : json["nbHits"] as int?,
       nbPages : json["nbPages"] as int?,
