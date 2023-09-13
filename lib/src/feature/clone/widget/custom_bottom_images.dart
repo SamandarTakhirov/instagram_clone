@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 class CustomButtonImages extends StatelessWidget {
   final String image;
+  final Color color;
 
   const CustomButtonImages({
+    required this.color,
     required this.image,
     super.key,
   });
@@ -14,6 +16,7 @@ class CustomButtonImages extends StatelessWidget {
       width: 24,
       height: 24,
       child: Image(
+        color: color,
         image: AssetImage(image),
       ),
     );

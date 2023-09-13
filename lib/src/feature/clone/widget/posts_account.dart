@@ -13,16 +13,14 @@ class PostsAccount extends StatefulWidget {
   final int likesCount;
   final int time;
   final String comment;
-  final double width;
-  final double height;
   final Size size;
+  final double aspectRatio;
 
   const PostsAccount({
+    required this.aspectRatio,
     required this.size,
     required this.widgetComment,
     required this.time,
-    required this.height,
-    required this.width,
     required this.image,
     required this.userName,
     required this.widget,
@@ -94,8 +92,12 @@ class _PostsAccountState extends State<PostsAccount> {
                 children: [
                   GestureDetector(
                     onDoubleTap: onDoubleTap,
-                    child: Image(
-                      image: NetworkImage(widget.image),
+                    child: AspectRatio(
+                      aspectRatio: widget.aspectRatio,
+                      child: Image(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(widget.image),
+                      ),
                     ),
                   ),
                   Visibility(

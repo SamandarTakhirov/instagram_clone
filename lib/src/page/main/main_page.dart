@@ -9,7 +9,6 @@ import 'profile/profil_page.dart';
 import 'reels_page/reels_page.dart';
 import 'search/search_page.dart';
 
-
 class ControllerPage extends StatefulWidget {
   const ControllerPage({Key? key}) : super(key: key);
 
@@ -56,35 +55,66 @@ class _ControllerPageState extends State<ControllerPage> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: pageIndex == 3 ? AppColor.black : AppColor.white,
         currentIndex: pageIndex,
         onTap: pageChange,
         fixedColor: AppColor.black,
         type: BottomNavigationBarType.fixed,
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            icon: CustomButtonImages(image: AppIcons.icHome),
+            icon: CustomButtonImages(
+              image: AppIcons.icHome,
+              color: pageIndex == 3 ? AppColor.white : AppColor.black,
+            ),
             label: "",
-            activeIcon: CustomButtonImages(image: AppIcons.icHomeFill),
+            activeIcon: CustomButtonImages(
+              image: AppIcons.icHomeFill,
+              color: pageIndex == 3 ? AppColor.white : AppColor.black,
+            ),
           ),
           BottomNavigationBarItem(
-            icon: CustomButtonImages(image: AppIcons.icSearch),
+            icon: CustomButtonImages(
+              image: AppIcons.icSearch,
+              color: pageIndex == 3 ? AppColor.white : AppColor.black,
+            ),
             label: "",
-            activeIcon: CustomButtonImages(image: AppIcons.icSearchFill),
+            activeIcon: CustomButtonImages(
+              image: AppIcons.icSearchFill,
+              color: pageIndex == 3 ? AppColor.white : AppColor.black,
+            ),
           ),
           BottomNavigationBarItem(
-            icon: CustomButtonImages(image: AppIcons.icAdded),
+            icon: CustomButtonImages(
+              image: AppIcons.icAdded,
+              color: pageIndex == 3 ? AppColor.white : AppColor.black,
+            ),
             label: "",
-            activeIcon: CustomButtonImages(image: AppIcons.icAdded),
+            activeIcon: CustomButtonImages(
+              image: AppIcons.icAdded,
+              color: pageIndex == 3 ? AppColor.white : AppColor.black,
+            ),
           ),
           BottomNavigationBarItem(
-            icon: CustomButtonImages(image: AppIcons.icReels),
+            icon: CustomButtonImages(
+              image: AppIcons.icReels,
+              color: pageIndex == 3 ? AppColor.white : AppColor.black,
+            ),
             label: "",
-            activeIcon: CustomButtonImages(image: AppIcons.icReels),
+            activeIcon: CustomButtonImages(
+              image: AppIcons.icReels,
+              color: pageIndex == 3 ? AppColor.white : AppColor.black,
+            ),
           ),
           BottomNavigationBarItem(
-            icon: CustomButtonImages(image: AppIcons.icProfile),
+            icon: CustomButtonImages(
+              image: AppIcons.icProfile,
+              color: pageIndex == 3 ? AppColor.white : AppColor.black,
+            ),
             label: "",
-            activeIcon: CustomButtonImages(image: AppIcons.icProfileFill),
+            activeIcon: CustomButtonImages(
+              image: AppIcons.icProfileFill,
+              color: pageIndex == 3 ? AppColor.white : AppColor.black,
+            ),
           ),
         ],
       ),

@@ -160,7 +160,10 @@ class _UserProfileState extends State<UserProfile> {
                 actions: [
                   InkWell(
                     onTap: () {},
-                    child: const CustomButtonImages(image: AppIcons.icAdded),
+                    child: const CustomButtonImages(
+                      image: AppIcons.icAdded,
+                      color: AppColor.black,
+                    ),
                   ),
                   const SizedBox(width: 10),
                   IconButton(
@@ -414,13 +417,22 @@ class MySliverHeaderDelegate extends SliverPersistentHeaderDelegate {
         indicatorColor: AppColor.black,
         tabs: [
           Tab(
-            child: CustomButtonImages(image: AppIcons.icPosts),
+            child: CustomButtonImages(
+              image: AppIcons.icPosts,
+              color: AppColor.black,
+            ),
           ),
           Tab(
-            child: CustomButtonImages(image: AppIcons.icReelsGrey),
+            child: CustomButtonImages(
+              image: AppIcons.icReelsGrey,
+              color: AppColor.black,
+            ),
           ),
           Tab(
-            child: CustomButtonImages(image: AppIcons.icMention),
+            child: CustomButtonImages(
+              image: AppIcons.icMention,
+              color: AppColor.black,
+            ),
           ),
         ],
       ),

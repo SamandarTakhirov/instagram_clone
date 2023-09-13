@@ -106,7 +106,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
-
     return Scaffold(
       appBar: AppBar(
         title: const SizedBox(
@@ -135,68 +134,97 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: ListView(
+      body: NestedScrollView(
         controller: scrollController,
-        children: [
-          SizedBox(
-            height: 100,
-            child: ListView.builder(
-              controller: scrollController,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return Row(
-                  children: [
-                    const SizedBox(width: 10),
-                    CustomCircleAvatar(
-                      isGradient: true,
-                      avatarSize: 72,
-                      image: photos[index].urls?.regular ?? "",
-                      text: "${photos[index].user?.name}",
-                    ),
-                  ],
-                );
-              },
-              itemCount: photos.length,
+        body: SizedBox(),
+        headerSliverBuilder: (context, innerBoxIsScrolled) => [
+          SliverAppBar(
+            expandedHeight: 100,
+            toolbarHeight: 0,
+            flexibleSpace: FlexibleSpaceBar(
+              background: ListView.builder(
+                controller: scrollController,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  return Row(
+                    children: [
+                      const SizedBox(width: 10),
+                      CustomCircleAvatar(
+                        isGradient: true,
+                        avatarSize: 72,
+                        image: photos[index].urls?.regular ?? "",
+                        text: "${photos[index].user?.name}",
+                      ),
+                    ],
+                  );
+                },
+                itemCount: photos.length,
+              ),
+              collapseMode: CollapseMode.parallax,
             ),
           ),
-          SizedBox(
-            width: size.width,
-            height: size.height,
-            child: ListView.builder(
-              controller: scrollController,
-              scrollDirection: Axis.vertical,
-              itemBuilder: (context, index) {
-                return Row(
-                  children: [
-                    const SizedBox(height: 10),
-                    PostsAccount(
-                      size: size,
-                      time: photos[index].user!.totalCollections ?? 0,
-                      height: photos[index].height?.toDouble() ?? 0,
-                      width: photos[index].width?.toDouble() ?? 0,
-                      image: photos[index].urls?.regular ?? "",
-                      comment: photos[index].description ?? "",
-                      likesCount: photos[index].user?.totalLikes ?? 0,
-                      userName: photos[index].user?.instagramUsername ?? "",
-                      widget: CustomCircleAvatar(
-                        isGradient: true,
-                        avatarSize: 36,
-                        image: photos[index].urls?.regular ?? "",
-                      ),
-                      widgetComment: CustomCircleAvatar(
-                        isGradient: false,
-                        avatarSize: 30,
-                        image: photos[1].urls?.regular ?? "",
-                      ),
-                    )
-                  ],
-                );
-              },
-              itemCount: photos.length,
+          SliverPersistentHeader(
+            delegate: MySliverHeaderDelegate(
+              size: size,
+              photos: photos,
             ),
+            pinned: false,
           ),
         ],
       ),
     );
+  }
+}
+
+class MySliverHeaderDelegate extends SliverPersistentHeaderDelegate {
+  final List<PhotoModel> photos;
+  final Size size;
+
+  MySliverHeaderDelegate({
+    required this.size,
+    required this.photos,
+  });
+
+  @override
+  Widget build(Object context, double shrinkOffset, bool overlapsContent) {
+    return ListView.builder(
+      itemBuilder: (context, index) => Row(
+        children: [
+          const SizedBox(height: 10),
+          PostsAccount(
+            size: size,
+            time: photos[index].user!.totalCollections ?? 0,
+            aspectRatio: photos[index].width!.toDouble() /
+                photos[index].height!.toDouble(),
+            image: photos[index].urls?.regular ?? "",
+            comment: photos[index].description ?? "",
+            likesCount: photos[index].user?.totalLikes ?? 0,
+            userName: photos[index].user?.instagramUsername ?? "",
+            widget: CustomCircleAvatar(
+              isGradient: true,
+              avatarSize: 36,
+              image: photos[index].urls?.regular ?? "",
+            ),
+            widgetComment: CustomCircleAvatar(
+              isGradient: false,
+              avatarSize: 30,
+              image: photos[1].urls?.regular ?? "",
+            ),
+          )
+        ],
+      ),
+      itemCount: photos.length,
+    );
+  }
+
+  @override
+  double get maxExtent => size.height;
+
+  @override
+  double get minExtent => size.height;
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
+    return true;
   }
 }

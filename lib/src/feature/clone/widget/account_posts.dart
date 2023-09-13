@@ -25,13 +25,22 @@ class AccountsPosts extends StatelessWidget {
           indicatorColor: AppColor.black,
           tabs: [
             Tab(
-              child: CustomButtonImages(image: AppIcons.icPosts),
+              child: CustomButtonImages(
+                image: AppIcons.icPosts,
+                color: AppColor.black,
+              ),
             ),
             Tab(
-              child: CustomButtonImages(image: AppIcons.icReelsGrey),
+              child: CustomButtonImages(
+                image: AppIcons.icReelsGrey,
+                color: AppColor.black,
+              ),
             ),
             Tab(
-              child: CustomButtonImages(image: AppIcons.icMention),
+              child: CustomButtonImages(
+                image: AppIcons.icMention,
+                color: AppColor.black,
+              ),
             ),
           ],
         ),
@@ -95,9 +104,9 @@ class AccountsPosts extends StatelessWidget {
                             "${photos[index].urls?.regular ?? ""}",
                           ),
                         ),
-                         Padding(
-                          padding:
-                              const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 5),
                           child: Row(
                             children: [
                               const Icon(
@@ -123,7 +132,7 @@ class AccountsPosts extends StatelessWidget {
                 crossAxisCount: 3,
                 children: List.generate(
                   photos.length,
-                      (index) => SizedBox(
+                  (index) => SizedBox(
                     width: 130,
                     height: 130,
                     child: Stack(
@@ -139,7 +148,7 @@ class AccountsPosts extends StatelessWidget {
                         ),
                         const Padding(
                           padding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                              EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                           child: Image(
                             width: 12,
                             height: 12,

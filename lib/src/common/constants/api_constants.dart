@@ -9,10 +9,28 @@ abstract class ApiConst {
     defaultValue: "...",
   );
 
+  static const baseUrlVideos = String.fromEnvironment(
+    "base_url",
+    defaultValue: "...",
+  );
+
+  static const apiKeyVideos = String.fromEnvironment(
+    "api_key",
+    defaultValue: "...",
+  );
+
 
   static const photosPath = "$baseUrl/photos";
 
   static const searchPhotosPath = "$baseUrl/search/photos";
+
+  static const videosPath = "$baseUrlVideos/videos";
+
+  // static const searchVideoPath = "$baseUrl/videos/search";
+
+
+
+
 
   static Map<String, List<String>> paginationQuery(int limit, int page) => {
     "per_page": ["$limit"],
