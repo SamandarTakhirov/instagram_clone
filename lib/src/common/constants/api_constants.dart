@@ -9,13 +9,14 @@ abstract class ApiConst {
     defaultValue: "...",
   );
 
+
   static const baseUrlVideos = String.fromEnvironment(
-    "base_url",
+    "base_url_videos",
     defaultValue: "...",
   );
 
   static const apiKeyVideos = String.fromEnvironment(
-    "api_key",
+    "api_key_videos",
     defaultValue: "...",
   );
 

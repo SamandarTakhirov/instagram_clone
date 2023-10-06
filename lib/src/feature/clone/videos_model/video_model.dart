@@ -152,7 +152,7 @@ class BaseVideoModel {
       pageSize : json["page_size"] as int?,
       params : json["params"] as String?,
       total : json["total"] as int?,
-      hits : json["hits"] != null ? List.from(json["hits"] as List<dynamic>).map((e) => VideoModel.fromJson(e)).toList(): null,
+      hits : json["hits"] != null ? List.from(json["hits"] as List<VideoModel>).map((e) => VideoModel.fromJson(e)).toList(): null,
       hitsPerPage : json["hitsPerPage"] as int?,
       nbHits : json["nbHits"] as int?,
       nbPages : json["nbPages"] as int?,

@@ -112,7 +112,7 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
     return Scaffold(
-      body: !isLoading
+      body: true
           ? SafeArea(
               child: Column(
                 children: [

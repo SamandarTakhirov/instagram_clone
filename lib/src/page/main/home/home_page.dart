@@ -136,7 +136,34 @@ class _HomePageState extends State<HomePage> {
       ),
       body: NestedScrollView(
         controller: scrollController,
-        body: SizedBox(),
+        body:ListView.builder(
+          itemBuilder: (context, index) => Row(
+            children: [
+              const SizedBox(height: 10),
+              PostsAccount(
+                size: size,
+                time: photos[index].user!.totalCollections ?? 0,
+                aspectRatio: photos[index].width!.toDouble() /
+                    photos[index].height!.toDouble(),
+                image: photos[index].urls?.regular ?? "",
+                comment: photos[index].description ?? "",
+                likesCount: photos[index].user?.totalLikes ?? 0,
+                userName: photos[index].user?.instagramUsername ?? "",
+                widget: CustomCircleAvatar(
+                  isGradient: true,
+                  avatarSize: 36,
+                  image: photos[index].urls?.regular ?? "",
+                ),
+                widgetComment: CustomCircleAvatar(
+                  isGradient: false,
+                  avatarSize: 30,
+                  image: photos[1].urls?.regular ?? "",
+                ),
+              )
+            ],
+          ),
+          itemCount: photos.length,
+        ),
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
           SliverAppBar(
             expandedHeight: 100,
@@ -160,15 +187,8 @@ class _HomePageState extends State<HomePage> {
                 },
                 itemCount: photos.length,
               ),
-              collapseMode: CollapseMode.parallax,
+              collapseMode: CollapseMode.pin,
             ),
-          ),
-          SliverPersistentHeader(
-            delegate: MySliverHeaderDelegate(
-              size: size,
-              photos: photos,
-            ),
-            pinned: false,
           ),
         ],
       ),
@@ -176,55 +196,3 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class MySliverHeaderDelegate extends SliverPersistentHeaderDelegate {
-  final List<PhotoModel> photos;
-  final Size size;
-
-  MySliverHeaderDelegate({
-    required this.size,
-    required this.photos,
-  });
-
-  @override
-  Widget build(Object context, double shrinkOffset, bool overlapsContent) {
-    return ListView.builder(
-      itemBuilder: (context, index) => Row(
-        children: [
-          const SizedBox(height: 10),
-          PostsAccount(
-            size: size,
-            time: photos[index].user!.totalCollections ?? 0,
-            aspectRatio: photos[index].width!.toDouble() /
-                photos[index].height!.toDouble(),
-            image: photos[index].urls?.regular ?? "",
-            comment: photos[index].description ?? "",
-            likesCount: photos[index].user?.totalLikes ?? 0,
-            userName: photos[index].user?.instagramUsername ?? "",
-            widget: CustomCircleAvatar(
-              isGradient: true,
-              avatarSize: 36,
-              image: photos[index].urls?.regular ?? "",
-            ),
-            widgetComment: CustomCircleAvatar(
-              isGradient: false,
-              avatarSize: 30,
-              image: photos[1].urls?.regular ?? "",
-            ),
-          )
-        ],
-      ),
-      itemCount: photos.length,
-    );
-  }
-
-  @override
-  double get maxExtent => size.height;
-
-  @override
-  double get minExtent => size.height;
-
-  @override
-  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
-    return true;
-  }
-}

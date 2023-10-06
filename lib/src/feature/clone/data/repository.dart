@@ -26,7 +26,7 @@ class PhotoRepositoryImpl implements IPhotoRepository {
     String response = await apiService.request(
       ApiConst.searchPhotosPath,
       headers: {
-        "Authorization": "Client-ID jfjMrzw_f-9b4MpkSDqC6dstoY6-Qs2-61Sew6E2CwI"
+        "Authorization": "Client-ID ${ApiConst.apiKey}",
       },
       queryParametersAll: ApiConst.searchWithPaginationQuery(
         limit: 20,
@@ -44,7 +44,7 @@ class PhotoRepositoryImpl implements IPhotoRepository {
   @override
   Future<List<PhotoModel>> getAllUser() async {
     String response = await apiService.request(ApiConst.photosPath, headers: {
-      "Authorization": "Client-ID jfjMrzw_f-9b4MpkSDqC6dstoY6-Qs2-61Sew6E2CwI",
+      "Authorization": "Client-ID ${ApiConst.apiKey}",
     });
     List<PhotoModel> photos =
         List<Map<String, Object?>>.from(jsonDecode(response))
@@ -57,12 +57,12 @@ class PhotoRepositoryImpl implements IPhotoRepository {
   Future<BaseVideoModel> getAllVideos() async {
     String response = await apiService.request(ApiConst.videosPath, headers: {
       "Authorization":
-          "9580a1f7d899967e973314c27c2c9a4d",
+          ApiConst.apiKeyVideos,
     });
     BaseVideoModel videos = BaseVideoModel.fromJson(jsonDecode(response));
 
-    print(response);
 
+    print(response);
     return videos;
   }
 
@@ -71,7 +71,7 @@ class PhotoRepositoryImpl implements IPhotoRepository {
     String response = await apiService.request(
       ApiConst.photosPath,
       headers: {
-        "Authorization": "Client-ID jfjMrzw_f-9b4MpkSDqC6dstoY6-Qs2-61Sew6E2CwI"
+        "Authorization": "Client-ID ${ApiConst.apiKey}",
       },
       queryParametersAll: ApiConst.paginationQuery(20, page),
     );

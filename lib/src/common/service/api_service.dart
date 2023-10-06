@@ -26,10 +26,6 @@ class APIService {
   }) async {
     final params = _queryToString(queryParametersAll);
     final uri = Uri.parse("$requestPath$params");
-
-    print(uri);
-
-
     try {
       Response response = await switch (method) {
         Method.get => get(uri, headers: headers),
